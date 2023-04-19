@@ -3,7 +3,7 @@ from fastapi import FastAPI
 
 from config.config import settings
 from db.session import Base, engine
-
+from routers.uf.uf import uf
 
 app = FastAPI()
 
@@ -11,6 +11,7 @@ app = FastAPI()
 def start_application():
     Base.metadata.create_all(bind=engine)
     app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
+    app.include_router(uf, tags=["uf"], prefix="/api/uf")
 
     @app.get("/")
     async def root():
